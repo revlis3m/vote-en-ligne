@@ -24,15 +24,5 @@ public class TestEntities {
 //        System.out.println("Message original : " + messageGold);
 //        System.out.println("Message chiffre : " + new String(goldMessageEncrypt));
 //        System.out.println("Message dechiffre : " + new String(receivedMessageSilver));
-
-        String url = "jdbc:mysql://mysql-silver.alwaysdata.net:3306/silver_mssi";
-        String username = "silver";
-        String password = "H93frSeYu92NjFhcVYvb";
-
-        DatabaseWriter databaseWriter = new DatabaseWriter(url, username, password);
-
-        // Écrire un message dans la table test
-        String message = "Ceci est un message de test";
-        databaseWriter.insertTestMessage(message);
     }
 }

@@ -24,33 +24,6 @@ public class Entity {
         this.imageProfileLink = imageProfileLink;
         this.canVote = canVote;
         rsa = new RSA();
-
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://mysql-silver.alwaysdata.net:3306/silver_mssi", "silver", "H93frSeYu92NjFhcVYvb")) {
-            try {
-                PreparedStatement insertEntityStmt = connection.prepareStatement("INSERT INTO entities (cni, num_tel, id, nom, prenom, image_profile_link, can_vote) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                insertEntityStmt.setString(1, cni);
-                insertEntityStmt.setString(2, numTel);
-                insertEntityStmt.setString(3, id);
-                insertEntityStmt.setString(4, nom);
-                insertEntityStmt.setString(5, prenom);
-                insertEntityStmt.setString(6, imageProfileLink);
-                insertEntityStmt.setBoolean(7, canVote);
-                insertEntityStmt.executeUpdate();
-            } catch (SQLException e) {
-                System.err.println("Error inserting entity into database: " + e.getMessage());
-            }
-
-            try {
-                PreparedStatement insertRSAStmt = connection.prepareStatement("INSERT INTO rsa_keys (entity_id, public_key) VALUES (?, ?)");
-                insertRSAStmt.setString(1, id); // Using id from the Entity object
-                insertRSAStmt.setString(2, encodePublicKey(rsa.getPublicKey())); // Encoding public key
-                insertRSAStmt.executeUpdate();
-            } catch (SQLException e) {
-                System.err.println("Error inserting RSA key into database: " + e.getMessage());
-            }
-        } catch (SQLException e) {
-            System.err.println("Error connecting to database: " + e.getMessage());
-        }
     }
 
     private String encodePublicKey(PublicKey publicKey) {
